@@ -8,3 +8,16 @@
     justify-content: center; /*alinha horizontalmente ao centro*/
 
 }
+
+.paginacao{
+    background: #C4C4C4;
+
+}
+.paginacao-item{
+
+}
+.paginacao .seta{
+    width: 54px;
+    height: 54px;
+}
+
