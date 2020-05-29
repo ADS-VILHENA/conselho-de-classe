@@ -1,0 +1,21 @@
+﻿ .linkButtons{
+    display:flex; 
+    flex-direction: row;
+    justify-content: center;     
+    width: 100%; 
+    padding: 10px;
+}
+ 
+
+.linkButtonsItem{
+    margin: 5px;     
+    width: 40%;
+    height: 60px;
+    background-color: #43A838;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+
+}

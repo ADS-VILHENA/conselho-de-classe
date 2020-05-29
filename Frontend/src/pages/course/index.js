@@ -8,12 +8,12 @@ import Header from '../../components/header';
 
 
 
-export default function Panel() {
-    const [turmas, setTurmas] = useState([]);
+export default function Course() {
+    const [course, setCourse] = useState([]);
 
     useEffect(() => {
-        // buscar dados da API
-        setTurmas([
+        // buscar dados da API 
+        setCourse([
             {
                 id: "ac246",
                 nome: "Informática",
@@ -47,12 +47,12 @@ export default function Panel() {
             <Header />
 
             <section>
-                <h1 className="titlePage">Painel - Selecione um Curso</h1>
+                <h1 className="titlePage">Selecione um Curso</h1>
                 <ul  >
-                    {turmas.map(turma => (
-                        <li key={turma.id} >  
-                            <turma.icon size={60} color='gray'  />
-                            <Link className="link" to={`/monitor/${turma.id}`}>{turma.nome}</Link>
+                    {course.map(course => (
+                        <li key={course.id} >  
+                            <course.icon size={60} color='gray'  />
+                            <Link className="link" to={`/class/${course.id}`}>{course.nome}</Link>
                         </li>
                     ))}
                 </ul>
