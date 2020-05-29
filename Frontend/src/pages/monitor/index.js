@@ -2,17 +2,21 @@
 import { Link, useHistory, useParams } from 'react-router-dom';
 
 import './styles.css';
-import setaDImg from '../../assets/setaD.png';
-import setaEImg from '../../assets/setaE.png';
-import alunoImg from '../../assets/aluno.png';
+import Header from '../../components/header';
+
 export default function Monitor()
 {
-    let {id} = useParams();
+    
  
     return(
-        <div>
-            <h1>Monitoria </h1> 
-            <h2>{id}</h2>
+        <div className="main-container">
+            <Header />
+
+            <section>
+                <h1 className="titlePage">Monitor - Selecione um Turma</h1>
+                <ul > 
+                </ul>
+            </section>
         </div>
     );
 }

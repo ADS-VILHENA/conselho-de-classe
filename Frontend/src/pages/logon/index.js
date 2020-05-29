@@ -16,7 +16,7 @@ export default function Logon() {
         e.preventDefault();
 
         try {
-            history.push('/panel');
+            history.push('/course');
         } catch (err) {
             alert(err)
         }
@@ -27,7 +27,7 @@ export default function Logon() {
                 <img className="logo" src={logoImg} alt="Logo Be The Hero" />
 
                 <form onSubmit={handleLogin}>
-                    <h1>Faça seu logon</h1>
+                    <h1 className="titlePage">Faça seu logon</h1>
                     <input placeholder="Sua ID" value={id} onChange={e => setId(e.target.value)} />
                     <button className="button" type="submit">Entrar</button>
 
