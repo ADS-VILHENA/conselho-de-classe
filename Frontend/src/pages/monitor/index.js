@@ -13,7 +13,7 @@ export default function Monitor()
             <Header />
 
             <section>
-                <h1 className="titlePage">Monitor - Selecione um Turma</h1>
+                <h1 className="titlePage">Monitorar turma</h1>
                 <ul > 
                 </ul>
             </section>

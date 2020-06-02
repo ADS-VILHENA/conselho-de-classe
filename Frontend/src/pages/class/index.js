@@ -65,7 +65,7 @@ export default function Class() {
                             <span>{turma.nome}</span>
                             <div className="linkButtons">
                                 <Link className="link linkButtonsItem" to={`/monitor/${turma.id}`}>Monitor</Link>
-                                <Link className="link linkButtonsItem" to={`/monitor/${turma.id}`}>Diagnostico</Link>
+                                <Link className="link linkButtonsItem" to={`/diagnostic/${turma.id}`}>Diagnostico</Link>
                             </div>
                         </li>
                     ))}
