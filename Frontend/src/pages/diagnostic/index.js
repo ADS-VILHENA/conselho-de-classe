@@ -1,7 +1,8 @@
 ﻿import React,{ useState } from 'react';  
 
 import './styles.css';
- 
+import Header from '../../components/header';
+
 export default function Diagnostic()
 { 
     return(

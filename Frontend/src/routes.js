@@ -7,7 +7,7 @@ import Panel from './pages/panel';
 import Monitor from './pages/monitor';
 import Course from './pages/course';
 import Diagnostic from './pages/diagnostic';
-import Class from './pages/class'
+import Serie from './pages/serie'
 
 export default function Routes() {
     return (
@@ -18,8 +18,8 @@ export default function Routes() {
                 <Route path="/panel" component={Panel} />
                 <Route path="/monitor/:id" component={Monitor} />
                 <Route path="/course" component={Course} />
-                <Route path="/class" component={Class} />
-                <Route path="/diagnostic" component={Diagnostic} />
+                <Route path="/serie/:id" component={Serie} />
+                <Route path="/diagnostic/:id" component={Diagnostic} />
             </Switch>
         </BrowserRouter>
     );

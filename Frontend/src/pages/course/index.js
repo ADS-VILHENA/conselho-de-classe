@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';   
 import {  FiMonitor, FiSettings, FiHome, FiGlobe, FiPieChart  } from 'react-icons/fi';
-
+import api from '../../services/api';
 
 import './styles.css';
 import Header from '../../components/header';
@@ -13,34 +13,19 @@ export default function Course() {
 
     useEffect(() => {
         // buscar dados da API 
-        setCourse([
-            {
-                id: "ac246",
-                nome: "Informática",
-                icon: FiMonitor
-            },
-            {
-                id: "ac94654",
-                nome: "Edificações",
-                icon: FiHome
-            },
-            {
-                id: "ab6461",
-                nome: "Eletromecânica",
-                icon: FiSettings
-            },
-            {
-                id: "asd554",
-                nome: "Matemática",
-                icon: FiPieChart
-            },
-            {
-                id: "asd418",
-                nome: "Linguas",
-                icon: FiGlobe
-            }
-        ]);
+        
+        getCourses();
+                
     }, []);
+
+    async function getCourses(){
+        await api.get('/curso').then( response => {
+            setCourse( response.data );
+        }).catch( err => {
+            console.error(err)
+            alert(err);
+        });
+    }
 
     return (
         <div className="main-container">
@@ -50,10 +35,10 @@ export default function Course() {
                 <h1 className="titlePage">Selecione um Curso</h1>
                 <ul  >
                     {course.map(course => (
-                        <li key={course.id} >  
-                            <course.icon size={60} color='gray'  />
-                            <Link className="link" to={`/class/${course.id}`}>{course.nome}</Link>
-                        </li>
+                        <li key={course.id.toString()} >  
+                        {/* <course.icon size={60} color='gray'  /> */}
+                        <span>{course.nivel}</span>
+                        <Link className="link" to={`/serie/${course.id}`}>{course.nome}</Link></li>
                     ))}
                 </ul>
             </section>
