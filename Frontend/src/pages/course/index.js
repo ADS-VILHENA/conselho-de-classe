@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';   
-import {  FiMonitor, FiSettings, FiHome, FiGlobe, FiPieChart  } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import { FiMonitor, FiSettings, FiHome, FiGlobe, FiPieChart } from 'react-icons/fi';
 import api from '../../services/api';
 
 import './styles.css';
@@ -13,15 +13,15 @@ export default function Course() {
 
     useEffect(() => {
         // buscar dados da API 
-        
+
         getCourses();
-                
+
     }, []);
 
-    async function getCourses(){
-        await api.get('/curso').then( response => {
-            setCourse( response.data );
-        }).catch( err => {
+    async function getCourses() {
+        await api.get('/curso').then(response => {
+            setCourse(response.data);
+        }).catch(err => {
             console.error(err)
             alert(err);
         });
@@ -35,10 +35,12 @@ export default function Course() {
                 <h1 className="titlePage">Selecione um Curso</h1>
                 <ul  >
                     {course.map(course => (
-                        <li key={course.id.toString()} >  
-                        {/* <course.icon size={60} color='gray'  /> */}
-                        <span>{course.nivel}</span>
-                        <Link className="link" to={`/serie/${course.id}`}>{course.nome}</Link></li>
+                        <Link key={course.id.toString()} className="card" to={`/serie/${course.id}`}>
+                            <li > 
+                                <span>{course.nivel}</span> 
+                                <span>{course.nome}</span> 
+                            </li>
+                        </Link> 
                     ))}
                 </ul>
             </section>

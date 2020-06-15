@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link,useParams } from 'react-router-dom';   
-import { FaUserGraduate } from 'react-icons/fa';
+import { Link, useParams, useHistory } from 'react-router-dom';   
+import { FaUserGraduate, FaArrowLeft } from 'react-icons/fa';
 
 
 import './styles.css';
@@ -13,6 +13,7 @@ export default function Serie() {
     const [serie, setSerie] = useState([]);
     const [title, setTitle] = useState('');
     const {id} = useParams();
+    const history = useHistory();
 
     useEffect(() =>{
         getSerie()
@@ -31,15 +32,19 @@ export default function Serie() {
         getSerie()
     }, []);
 
+
     return (
         <div className="main-container">
             <Header />
 
             <section>
-                <h1 className="titlePage">Selecione uma serie de {title}</h1>
+                <h1 className="titlePage">
+                    <span className="backButton" onClick={() => {history.goBack()}} ><FaArrowLeft size={30} color='black' /></span>
+                    Selecione uma serie
+                </h1>
                 <ul  >
-                    {serie.map(serie => (
-                        <li key={serie.id} style={{paddingLeft:5, paddingRight:5}}>  
+                    {serie.map(serie => (                     
+                        <li className="card" key={serie.id} style={{paddingLeft:5, paddingRight:5}}>  
                             <FaUserGraduate size={60} color='gray'  />
                             <span>{serie.nome}</span>
                             <div className="linkButtons">

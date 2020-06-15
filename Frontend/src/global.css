@@ -44,10 +44,16 @@ form textarea{
 
 
 .titlePage{
+  display: flex; 
   color: #41414d;
   font-size: 32px;
   font-family: 'Roboto';
-  margin: 10px;
+  margin: 10px; 
+}
+
+.backButton{
+  margin-right: 15px;
+  cursor: pointer;
 }
 
 .button{
@@ -125,6 +131,7 @@ form textarea{
   list-style: none;  
 } 
 
+/* 
 .main-container ul li{ 
   max-width: 340px;
   padding: 40px;
@@ -148,12 +155,19 @@ form textarea{
   text-decoration: none;
   font-weight: 500;
   padding: 10px;
-}
+} 
+*/
 
-
- 
-.link{
-  display: flex;
+.card{
+  max-width: 340px;
+  padding: 40px;
+  background: #fff;
+  box-shadow: 0 0 30px rgba(0,0,0, 0.2);
+  border-radius: 10px;
+  margin: 10px;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin-top: 40px;
   color: #41414d;
@@ -161,22 +175,48 @@ form textarea{
   text-decoration: none;
   font-weight: 500;
   transition: opacity 0.2;
-  background-color: #43A838;  
+}
+
+.card:hover{
+  box-shadow: 0 0 30px rgba(22,127,250, 0.3);
+}
+ 
+.card li{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+.card li span{
+  color: #41414d;
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px;
+} 
+
+.link{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color: #41414d;
+  font-size: 22px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2;
+  /* background-color: #43A838;   */
 }
 
 
 .link:hover{
   opacity: 0.8;
 }
-
-.linkButtonsItem{
-  background-color: #;
-  border-radius: 2px;
-  
-}
-
-.linkButtons{
+ 
+.linkButtons{  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  text-align: center;
-  
 }
