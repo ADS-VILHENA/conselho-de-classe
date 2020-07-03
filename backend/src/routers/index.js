@@ -9,6 +9,8 @@ const alunoController = require('../controllers/alunoController');
 const matriculaController = require('../controllers/matriculaController');
 const periodoController = require('../controllers/periodoController');
 
+const perfilTurmaController = require('../controllers/perfilTurmaController');
+
 Routers.get('/curso', cursoController.list);
 Routers.post('/curso', cursoController.create);
 
@@ -33,5 +35,8 @@ Routers.get('/matricula/:disciplina_id', matriculaController.listPorDisciplina);
 
 Routers.get('/periodo', periodoController.list);
 Routers.post('/periodo', periodoController.create);
+
+Routers.get('/perfilTurma', perfilTurmaController.list);
+
 
 module.exports = Routers;
