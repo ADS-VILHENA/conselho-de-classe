@@ -6,11 +6,11 @@ import api from '../../services/api';
 import './styles.css';
 import Header from '../../components/header';
 
-
+import { Spinner, Badge } from 'react-bootstrap';
 
 export default function Course() {
     const [course, setCourse] = useState([]);
-
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         // buscar dados da API 
 
@@ -19,12 +19,16 @@ export default function Course() {
     }, []);
 
     async function getCourses() {
+        setLoading(true); 
+
         await api.get('/curso').then(response => {
             setCourse(response.data);
         }).catch(err => {
             console.error(err)
             alert(err);
         });
+
+        setLoading(false);
     }
 
     return (
@@ -33,16 +37,26 @@ export default function Course() {
 
             <section>
                 <h1 className="titlePage">Selecione um Curso</h1>
-                <ul  >
-                    {course.map(course => (
-                        <Link key={course.id.toString()} className="card" to={`/serie/${course.id}`}>
-                            <li > 
-                                <span>{course.nivel}</span> 
-                                <span>{course.nome}</span> 
-                            </li>
-                        </Link> 
-                    ))}
-                </ul>
+                {
+                    loading ? 
+                        <div className="selfCenter" >
+                            <Spinner animation="border" variant="success" />
+                        </div>
+                        
+                        :
+                        <ul  >
+                            {course.map(course => (
+                                <Link key={course.id.toString()} className="card link" to={`/serie/${course.id}`}>
+                                    <li>
+                                        <Badge className="courseNivel" variant="success">{course.nivel}</Badge> 
+                                        <span>{course.nome}</span>
+                                    </li>
+                                </Link>
+                            ))}
+                        </ul>
+                }
+
+
             </section>
         </div>
     );

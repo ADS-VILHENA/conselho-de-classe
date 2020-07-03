@@ -1,0 +1,35 @@
+.courseSerie{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    max-height: 20px;
+    color: white !important;
+    font-size: 12px !important;
+    padding: 2px !important;
+    font-family: 'Roboto'; 
+    word-wrap: break-word; 
+    text-align: center; 
+}
+
+.cardContent{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100px;
+    width: 200px; 
+    justify-content: center;
+    align-items: center;
+    color: #41414d;
+    font-size: 16px;
+    font-family: 'Roboto'; 
+    word-wrap: break-word; 
+    text-align: center;
+} 
+
+.linkButtonsItem{
+    display: flex; 
+  color: #777;
+  font-size: 22px;
+  font-family: 'Roboto'; 
+    text-decoration: none !important; 
+ }
