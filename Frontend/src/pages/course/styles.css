@@ -1,1 +1,12 @@
-﻿
+﻿.courseNivel{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    max-height: 20px;
+    color: white !important;
+    font-size: 12px !important;
+    padding: 2px !important;
+    font-family: 'Roboto'; 
+    word-wrap: break-word; 
+    text-align: center; 
+}
