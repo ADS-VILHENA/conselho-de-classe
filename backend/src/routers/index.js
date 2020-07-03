@@ -10,6 +10,10 @@ const matriculaController = require('../controllers/matriculaController');
 const periodoController = require('../controllers/periodoController');
 
 const perfilTurmaController = require('../controllers/perfilTurmaController');
+const indiceController = require('../controllers/indiceController');
+
+Routers.get('/indice', indiceController.list);
+Routers.post('/indice', indiceController.create);
 
 Routers.get('/curso', cursoController.list);
 Routers.post('/curso', cursoController.create);
