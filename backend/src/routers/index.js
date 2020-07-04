@@ -11,6 +11,16 @@ const periodoController = require('../controllers/periodoController');
 
 const perfilTurmaController = require('../controllers/perfilTurmaController');
 const indiceController = require('../controllers/indiceController');
+const diagnosticarTurmaController = require('../controllers/diagnosticarTurmaController');
+const diagnosticarAlunoController = require('../controllers/diagnosticarAlunoController');
+
+Routers.get('/diagnosticar_turma', diagnosticarTurmaController.list);
+Routers.get('/diagnosticar_turma/:idPeriodo', diagnosticarTurmaController.listPorPeriodo)
+Routers.post('/diagnosticar_turma', diagnosticarTurmaController.create);
+
+Routers.get('/diagnosticar_aluno', diagnosticarAlunoController.list);
+Routers.post('/diagnosticar_aluno', diagnosticarAlunoController.create);
+Routers.get('/diagnosticar_aluno/:idPeriodo', diagnosticarAlunoController.listPorPeriodo)
 
 Routers.get('/indice', indiceController.list);
 Routers.post('/indice', indiceController.create);
@@ -40,7 +50,7 @@ Routers.get('/matricula/:disciplina_id', matriculaController.listPorDisciplina);
 Routers.get('/periodo', periodoController.list);
 Routers.post('/periodo', periodoController.create);
 
-Routers.get('/perfilTurma', perfilTurmaController.list);
+Routers.get('/perfil_turma', perfilTurmaController.list);
 
 
 module.exports = Routers;
