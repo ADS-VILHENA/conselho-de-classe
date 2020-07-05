@@ -16,5 +16,81 @@
 .paginacao .seta{
     width: 54px;
     height: 54px;
+} 
+
+.cardAlunoContainer{
+    display: grid; 
+    grid-template-columns:  repeat(auto-fit,  minmax(100px, 120px));  
+    align-items: center;
+    list-style: none;    
+    justify-content: center; 
+}
+  
+.alunoContent{
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    justify-content: space-between; 
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    padding: 5px;
+    color: #777;
+    font-size: 14px;
+    font-family: 'Roboto'; 
 }
 
+.alunoSelected{
+    display: flex;
+    justify-content: center;
+}
+
+.cardAlunoContent {   
+    display: flex;        
+    justify-items: center;
+    align-items: center; 
+    background: #fff;
+    height: 80px;
+    margin: 10px 5px;
+    padding: 10px;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    border-radius: 5px;  
+    cursor: pointer;
+}
+  
+.cardAlunoContent:hover{
+    box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363);
+    -webkit-box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363);
+    -moz-box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363); 
+}
+
+.cardAlunoActive {   
+    display: flex;        
+    justify-items: center;
+    align-items: center; 
+    background: #fff;
+    height: 100px;
+    margin: 10px 5px;
+    padding: 10px;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;  
+    cursor: pointer;
+}
+  
+
+.chartsContainer{
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(400px, 600px));
+    align-items: center;
+    justify-content: center;
+    list-style: none;    
+}
+
+.chartContent {
+    width: 100%;
+}
+  

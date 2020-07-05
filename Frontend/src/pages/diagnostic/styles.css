@@ -1,57 +1,68 @@
-﻿.cardv2 { 
-  background: #fff;
-  box-shadow: 6px 7px 9px -3px rgba(0,0,0,0.26);
-  -webkit-box-shadow: 6px 7px 9px -3px rgba(0,0,0,0.26);
-  -moz-box-shadow: 6px 7px 9px -3px rgba(0,0,0,0.26);
-  border-radius: 10px;
-  margin: 10px; 
-  justify-items: center;
+﻿.cardOptionContainer{
+  display: grid; 
+  grid-template-columns:  repeat(auto-fit,  minmax(100px, 120px));  
   align-items: center;
-  margin-top: 20px; 
-  transition: opacity 0.2; 
+  list-style: none;    
+  justify-content: center; 
 }
 
-
-.cardv2:hover{
-  box-shadow: 6px 7px 9px -3px rgba(24, 118, 240, 0.363);
-  -webkit-box-shadow: 6px 7px 9px -3px rgba(24, 118, 240, 0.363);
-  -moz-box-shadow: 6px 7px 9px -3px rgba(24, 118, 240, 0.363); 
-}
-
-.containerSection {
+.optionContent{
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap; 
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 10px;
-  white-space: nowrap;
-} 
-
-.radioPereido{    
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    height: 100px;
-    width: 200px; 
-    justify-content: center;
-    align-items: center;
-    color: #41414d;
-    font-size: 16px;
-    font-family: 'Roboto'; 
-    word-wrap: break-word; 
-    text-align: center;
+  flex-direction: column;
+  width: 100%; 
+  justify-content: space-between; 
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  padding: 5px;
+  color: #777;
+  font-size: 14px;
+  font-family: 'Roboto'; 
+}
+ 
+.cardOptionContent {   
+  display: flex;        
+  justify-items: center;
+  align-items: center; 
+  background: #fff;
+  height: 80px;
+  margin: 10px 5px;
+  padding: 5px;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+  border-radius: 5px;  
+  cursor: pointer;
 }
 
+.cardOptionContent:hover{
+  box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363);
+  -webkit-box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363);
+  -moz-box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363); 
+}
 
-
-
-   
-
-.radioPereido input{
-    margin-bottom: 10px;
-}  
+.cardOptionActive {   
+  display: flex;        
+  justify-items: center;
+  align-items: center; 
+  background: #fff;
+  height: 80px;
+  margin: 10px 5px;
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;  
+  cursor: pointer;
+}
  
+
 .observation{
   margin: 1px;
+}
+
+.diagnosticActions{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

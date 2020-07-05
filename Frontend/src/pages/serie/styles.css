@@ -1,35 +1,81 @@
-.courseSerie{
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    max-height: 20px;
-    color: white !important;
-    font-size: 12px !important;
-    padding: 2px !important;
-    font-family: 'Roboto'; 
-    word-wrap: break-word; 
-    text-align: center; 
+.cardSerie{
+    max-width: 340px;  
+    min-height: 150px;    
+    background: #fff;    
+    border-radius: 5px;
+    margin: 10px; 
+    justify-items: center;
+    align-items: center;      
+    transition: opacity 0.2;
+    -webkit-box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.15);
+    box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.15);
+    text-decoration: none !important;
 }
 
-.cardContent{
+  
+   
+.cardContainer{
+    width: 100%;
+    height: 100%;
+}
+ 
+
+.cardContainer > span{    
+    font-size: 22px;
+    text-decoration: none; 
+    font-weight: 700; 
+    color: #777;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+
+.serieTitle{
+    background-color: #43A838;
+    color: #fff;
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    text-align: center;
+    padding: 10px;
+}
+
+
+.cardLink { 
+   
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    height: 100px;
-    width: 200px; 
-    justify-content: center;
-    align-items: center;
-    color: #41414d;
-    font-size: 16px;
-    font-family: 'Roboto'; 
-    word-wrap: break-word; 
     text-align: center;
-} 
+    justify-content: space-evenly;
+    width: 48%;
+    margin: 10px;   
+    padding: 10px;
+    border-radius: 2px;    
+    transition: opacity 0.2; 
+    -webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.23);
+    -moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.23);
+    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.23);
+    color: #555;
+    font-weight: 500;
+    text-align: center;      
+    align-items: center !important;   
+    text-decoration: none !important;  
+  
+}
 
-.linkButtonsItem{
-    display: flex; 
-  color: #777;
-  font-size: 22px;
-  font-family: 'Roboto'; 
-    text-decoration: none !important; 
- }
+  
+
+
+.cardLink:hover{
+    -webkit-box-shadow: 2px 2px 2px 0px rgba(54, 102, 70, 0.23);
+    -moz-box-shadow: 2px 2px 2px 0px  rgba(54, 102, 70, 0.23);
+    box-shadow: 2px 2px 2px 0px  rgba(54, 102, 70, 0.23);
+}
+.cardContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

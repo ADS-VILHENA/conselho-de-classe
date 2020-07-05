@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
-import { FaUserGraduate, FaArrowLeft } from 'react-icons/fa';
+import { FiMonitor, FiActivity, FiArrowLeft } from 'react-icons/fi';
 
 
 import './styles.css';
@@ -38,26 +38,38 @@ export default function Serie() {
         <div className="main-container">
             <Header />
 
-            <section>
-                <h1 className="titlePage">
-                    <span className="backButton" onClick={() => { history.goBack() }} ><FaArrowLeft size={30} color='black' /></span>
-                    Selecione uma serie
-                </h1>
-                <ul  >
-                    {serie.map(serie => (
-                        <div className="card" key={serie.id}>
-                            <li style={{ paddingLeft: 5, paddingRight: 5 }}>
-                                <Badge className="courseSerie" variant="success">{serie.nome}</Badge>  
-                                <div className="linkButtons">
-                                    <Link className="link linkButtonsItem" to={`/monitor/${serie.id}`}>Monitorar</Link>
-                                    <Link className="link linkButtonsItem" to={`/diagnostic/${serie.id}`}>Diagnosticar</Link>
-                                </div>
-                            </li>
-                        </div>
+            <div className="main-content">
 
-                    ))}
-                </ul>
-            </section>
+                <section>
+                    <h1 className="titlePage">
+                        <span className="backButton" onClick={() => { history.goBack() }} >
+                            <FiArrowLeft size={30}/>
+                        </span> 
+                        Selecione uma serie   
+                    </h1>
+                    <ul className="mainUlContainer">
+                        {serie.map(serie => (
+                            <div className="cardSerie"  key={serie.id} >
+                                <div className="cardContainer">
+                                    <div className="serieTitle">
+                                        <span>{serie.nome}</span>
+                                    </div> 
+                                    <div className="cardContent">
+                                        <Link className="cardLink" to={`/monitor/${serie.id}`}>
+                                            <FiMonitor size={30} color='gray' /> Monitorar
+                                        </Link>
+                                        <Link className="cardLink" to={`/diagnostic/${serie.id}`}>
+                                            <FiActivity size={30}  color='gray' /> Diagnosticar
+                                        </Link>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+
+                        ))} 
+                    </ul>
+                </section>
+            </div>
         </div>
     );
 }
