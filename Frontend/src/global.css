@@ -45,9 +45,17 @@ form textarea{
 
 .titlePage{
   display: flex; 
-  color: #41414d;
+  align-items: center;
+  align-content: center; 
+  color: #555;
   font-size: 32px;
   font-family: 'Roboto'; 
+}
+
+.titlePage > span{
+  display: flex; 
+  align-items: center;
+  align-content: center; 
 }
 
 .subtitle{
@@ -104,40 +112,29 @@ form textarea{
 }
 
 .main-container {
-  width: 100%;
-  max-width: 1180px;
-  padding: 0 30px;
-  margin:  0px auto;
-
+  width: 100%;  
+  margin:  0px auto; 
 } 
 
-.main-container header{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 50px;
-  padding-top: 20px;
+.main-content{
+  width: 100%;
+  max-width:1366px;
+  padding: 0 30px;
+  margin:  0px auto;
 }
 
-.main-container header span{
-  font-size: 20px;
-  margin-left: 24px;
-}
-
-.main-container header img{
-  height: 64px;
-}
 
 .main-container section h1{
   margin-top: 20px;
   margin-bottom: 10px;
 } 
 
-.main-container ul{
+.mainUlContainer{
   display: grid; 
   grid-template-columns:  repeat(auto-fit,  minmax(320px, auto)); 
   align-items: center;
   list-style: none;  
+  justify-content: center;
 } 
 
 .selfCenter {

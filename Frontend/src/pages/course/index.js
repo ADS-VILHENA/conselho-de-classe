@@ -13,16 +13,14 @@ export default function Course() {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         // buscar dados da API 
-
         getCourses();
-
     }, []);
 
     async function getCourses() {
-        setLoading(true); 
+        setLoading(true);
 
         await api.get('/curso').then(response => {
-            setCourse(response.data);
+            setCourse(response.data); 
         }).catch(err => {
             console.error(err)
             alert(err);
@@ -32,32 +30,36 @@ export default function Course() {
     }
 
     return (
+
         <div className="main-container">
             <Header />
 
-            <section>
-                <h1 className="titlePage">Selecione um Curso</h1>
-                {
-                    loading ? 
-                        <div className="selfCenter" >
-                            <Spinner animation="border" variant="success" />
-                        </div>
-                        
-                        :
-                        <ul  >
-                            {course.map(course => (
-                                <Link key={course.id.toString()} className="card link" to={`/serie/${course.id}`}>
-                                    <li>
-                                        <Badge className="courseNivel" variant="success">{course.nivel}</Badge> 
-                                        <span>{course.nome}</span>
-                                    </li>
-                                </Link>
-                            ))}
-                        </ul>
-                }
+            <div className="main-content">
 
+                <section>
+                    <h1 className="titlePage">Selecione um Curso</h1>
+                    {
+                        loading ?
+                            <div className="selfCenter" >
+                                <Spinner animation="border" variant="success" />
+                            </div>
+                            :
+                            <ul className="mainUlContainer">
+                                {course.map(course => ( 
+                                        <Link  className="cardCourse" key={course.id.toString()} to={`/serie/${course.id}`}>
+                                            <div className="linkContent">
+                                                <div className="nivelTitle">
+                                                    <span>{course.nivel}</span>
+                                                </div> 
+                                                <span>{course.nome}</span>
+                                            </div>
+                                        </Link> 
 
-            </section>
+                                ))}
+                            </ul>
+                    }
+                </section>
+            </div>
         </div>
     );
 }

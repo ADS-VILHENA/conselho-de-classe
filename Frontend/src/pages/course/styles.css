@@ -1,12 +1,53 @@
-﻿.courseNivel{
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    max-height: 20px;
-    color: white !important;
-    font-size: 12px !important;
-    padding: 2px !important;
-    font-family: 'Roboto'; 
-    word-wrap: break-word; 
-    text-align: center; 
+﻿
+.cardCourse{
+    max-width: 340px;  
+    min-height: 150px;    
+    background: #fff;    
+    border-radius: 5px;
+    margin: 10px; 
+    justify-items: center;
+    align-items: center;      
+    transition: opacity 0.2;
+    -webkit-box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.15);
+    box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.15);
+    text-decoration: none !important;
+}
+
+  
+.cardCourse:hover{
+    -webkit-box-shadow: 0px 5px 30px 1px rgba(24, 118, 240, 0.363);
+    -moz-box-shadow: 0px 5px 30px 1px rgba(24, 118, 240, 0.363);
+    box-shadow: 0px 5px 30px 1px rgba(24, 118, 240, 0.363); 
+}
+   
+.linkContainer{
+    width: 100%;
+    height: 100%;
+}
+
+.linkContent{
+    display: flex;
+    flex-direction: column;   
+    height: 150px;
+}
+ 
+
+.linkContent > span{    
+    font-size: 22px;
+    text-decoration: none; 
+    font-weight: 700; 
+    color: #777;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.nivelTitle{
+    background-color: #43A838;
+    color: #fff;
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    text-align: center;
+    padding: 10px;
 }
