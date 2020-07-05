@@ -28,6 +28,7 @@ const INITIAL_ALUNOS = [{
   id: "eq",
   name: "Sergio Marcos",
   notas: [10, 80, 99, 70]
+  
 }, {
   id: "8e",
   name: "Alan Gonsalves",
