@@ -18,9 +18,10 @@ Routers.get('/diagnosticar_turma', diagnosticarTurmaController.list);
 Routers.get('/diagnosticar_turma/:idPeriodo', diagnosticarTurmaController.listPorPeriodo)
 Routers.post('/diagnosticar_turma', diagnosticarTurmaController.create);
 
-Routers.get('/diagnosticar_aluno', diagnosticarAlunoController.list);
-Routers.post('/diagnosticar_aluno', diagnosticarAlunoController.create);
-Routers.get('/diagnosticar_aluno/:idPeriodo', diagnosticarAlunoController.listPorPeriodo)
+Routers.get('/diagnostico_aluno', diagnosticarAlunoController.list);
+Routers.post('/diagnostico_aluno', diagnosticarAlunoController.create);
+// Routers.get('/diagnosticar_aluno/:idPeriodo', diagnosticarAlunoController.listPorPeriodo)
+Routers.get('/diagnostico_aluno/', diagnosticarAlunoController.listPorAluno)
 
 Routers.get('/indice', indiceController.list);
 Routers.post('/indice', indiceController.create);
@@ -42,6 +43,8 @@ Routers.get('/disciplina/:serie_id', disciplinaController.listPorSerie);
 
 Routers.get('/aluno', alunoController.list);
 Routers.post('/aluno', alunoController.create);
+Routers.get('/aluno/:curso_id', alunoController.listNotas);
+
 
 Routers.get('/matricula', matriculaController.list);
 Routers.post('/matricula', matriculaController.create);
@@ -49,6 +52,7 @@ Routers.get('/matricula/:disciplina_id', matriculaController.listPorDisciplina);
 
 Routers.get('/periodo', periodoController.list);
 Routers.post('/periodo', periodoController.create);
+Routers.get('/periodo/:curso_id', periodoController.listPorCurso)
 
 Routers.get('/perfil_turma', perfilTurmaController.list);
 

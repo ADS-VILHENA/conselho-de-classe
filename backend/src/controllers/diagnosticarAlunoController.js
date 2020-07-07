@@ -3,16 +3,63 @@ const connection = require('../configs/connection');
 module.exports = {
     async list(req, res) {
 
-        await connection('diagnosticar_aluno').select('*').then(result => {
+        await connection('diagnostico_aluno').select('*').then(result => {
             return res.status(200).json(result);
         }).catch(error => {
             return res.status(500).json(error);
         });
     },
+
+    async listPorAluno(req, res) {
+        const { idAluno, idTurma } = req.query;
+
+        await connection
+        .raw(`select diagnostico_aluno.id as idDiagnostico,diagnostico_aluno.idAluno as idAluno,
+        diagnostico_aluno.idPeriodo as idPeriodo,indice.classe,indice.idIndice as idIndice,
+         indice.descricao as descricaoIndice
+        from diagnostico_aluno
+        join indice on indice.idIndice = diagnostico_aluno.idIndice
+        join periodo on periodo.id = diagnostico_aluno.idPeriodo
+        join serie on  serie.id = periodo.serie_id
+        join turma on turma.serie_id = serie.id
+        where diagnostico_aluno.idAluno = ${idAluno}
+        and turma.id = ${idTurma}`)
+        
+        .then(result => {
+            console.log(result)
+            let diagnosticos = [];
+            result.map( diagnostico => {
+                let index = diagnosticos.findIndex( e => e.id == diagnostico.idDiagnostico)
+                if ( index == -1){
+                    diagnosticos.push({
+                        id: diagnostico.idDiagnostico,
+                        idAluno: diagnostico.idAluno,
+                        periodo: diagnostico.idPeriodo,
+                        indice : [{
+                            classe: diagnostico.classe,
+                            id: diagnostico.idIndice,
+                            desc: diagnostico.descricaoIndice
+                        }]
+                    })
+                }else{
+                    diagnosticos[index].indice.push({
+                        classe: diagnostico.classe,
+                        id: diagnostico.idIndice,
+                        desc: diagnostico.descricaoIndice
+                    })
+                }
+            })
+            return res.status(200).json(diagnosticos);
+        }).catch(error => {
+            return res.status(500).json(error);
+        });
+
+    },
+
     async listPorPeriodo(req, res) {
         const { idPeriodo } = req.params;
 
-        await connection('diagnosticar_aluno').select('*').where('idPeriodo', idPeriodo || 0).then(result => {
+        await connection('diagnostico_aluno').select('*').where('idPeriodo', idPeriodo || 0).then(result => {
             return res.status(200).json(result);
         }).catch(error => {
             return res.status(500).json(error);
@@ -24,7 +71,7 @@ module.exports = {
 
         const { idAluno, idIndice, idPeriodo } = req.body;
 
-        await connection('diagnosticar_aluno').insert({
+        await connection('diagnostico_aluno').insert({
             idAluno,
             idIndice,
             idPeriodo
