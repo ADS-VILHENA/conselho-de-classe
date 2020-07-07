@@ -11,17 +11,16 @@ const periodoController = require('../controllers/periodoController');
 
 const perfilTurmaController = require('../controllers/perfilTurmaController');
 const indiceController = require('../controllers/indiceController');
-const diagnosticarTurmaController = require('../controllers/diagnosticarTurmaController');
-const diagnosticarAlunoController = require('../controllers/diagnosticarAlunoController');
+const diagnosticoController = require('../controllers/diagnosticoController');
 
-Routers.get('/diagnosticar_turma', diagnosticarTurmaController.list);
-Routers.get('/diagnosticar_turma/:idPeriodo', diagnosticarTurmaController.listPorPeriodo)
-Routers.post('/diagnosticar_turma', diagnosticarTurmaController.create);
 
-Routers.get('/diagnostico_aluno', diagnosticarAlunoController.list);
-Routers.post('/diagnostico_aluno', diagnosticarAlunoController.create);
-// Routers.get('/diagnosticar_aluno/:idPeriodo', diagnosticarAlunoController.listPorPeriodo)
-Routers.get('/diagnostico_aluno/', diagnosticarAlunoController.listPorAluno)
+Routers.get('/diagnostico/turma', diagnosticoController.listTurma);
+Routers.get('/diagnostico/turma/:idPeriodo', diagnosticoController.listPorPeriodo)
+Routers.post('/diagnostico/turma', diagnosticoController.createTurma);
+
+Routers.get('/diagnostico/aluno', diagnosticoController.listAluno);
+Routers.post('/diagnostico/aluno', diagnosticoController.createAluno);
+Routers.get('/diagnostico/aluno/filter', diagnosticoController.listPorAluno)
 
 Routers.get('/indice', indiceController.list);
 Routers.post('/indice', indiceController.create);
