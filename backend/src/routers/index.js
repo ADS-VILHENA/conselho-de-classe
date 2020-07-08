@@ -43,8 +43,8 @@ Routers.get('/disciplina/serie/:serie_id', disciplinaController.listPorSerie);
 
 Routers.get('/aluno', alunoController.list);
 Routers.post('/aluno', alunoController.create);
-Routers.get('/aluno/serie/:serie_id', alunoController.listNotas);
-
+Routers.get('/aluno/serie/:serie_id', alunoController.listNotasSerie);
+Routers.get('/aluno/disciplina/:disciplina_id', alunoController.listNotasDisciplina);
 
 Routers.get('/matricula', matriculaController.list);
 Routers.post('/matricula', matriculaController.create);
