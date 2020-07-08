@@ -42,7 +42,7 @@ module.exports = {
     },
 
     async listNotasDisciplina(req, res) {
-        const { disciplina_id } = req.params;
+        const { idDisciplina, idAluno } = req.query;
         
         await connection.raw(`select aluno.id,aluno.nome as NomeAluno,notas.nota,periodo.nome as PeriodoNome from aluno
         JOIN matricula on aluno.id = matricula.aluno_id
@@ -50,8 +50,10 @@ module.exports = {
         join serie on serie.id = disciplina.serie_id
         join notas on notas.matricula_id = matricula.id
         join periodo on periodo.id = notas.periodo_id        
-        WHERE disciplina.id = ${disciplina_id}`)
+        WHERE disciplina.id = ${idDisciplina} and
+        aluno.id = ${idAluno}`)
         .then(result => {
+            console.log(result)
             let alunos = [];
             result.map( aluno => {
                 let index = alunos.findIndex( e => e.id == aluno.id)
