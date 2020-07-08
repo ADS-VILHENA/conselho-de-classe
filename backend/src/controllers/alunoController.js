@@ -67,7 +67,7 @@ module.exports = {
                     alunos[index].notas.push(aluno.nota)
                 }
             })
-            return res.status(200).json(alunos);
+            return res.status(200).json(alunos[0]);
         }).catch(error => {
             return res.status(500).json(error);
         });
