@@ -51,7 +51,7 @@ Routers.get('/matricula/:disciplina_id', matriculaController.listPorDisciplina);
 
 Routers.get('/periodo', periodoController.list);
 Routers.post('/periodo', periodoController.create);
-Routers.get('/periodo/:curso_id', periodoController.listPorCurso)
+Routers.get('/periodo/:serie_id', periodoController.listPorSerie)
 
 Routers.get('/perfil_turma', perfilTurmaController.list);
 
