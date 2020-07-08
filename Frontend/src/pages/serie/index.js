@@ -2,17 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { FiMonitor, FiActivity, FiArrowLeft } from 'react-icons/fi';
 
-
 import './styles.css';
 import '../../global.css'
 import Header from '../../components/header';
 import api from '../../services/api'
 
-import { Badge } from 'react-bootstrap';
-
 export default function Serie() {
-    const [serie, setSerie] = useState([]);
-    const [title, setTitle] = useState('');
+    const [serie, setSerie] = useState([]); 
     const { id } = useParams();
     const history = useHistory();
 
@@ -28,9 +24,8 @@ export default function Serie() {
         })
     }
     useEffect(() => {
-        // buscar dados da API
-        setTitle("Informática");
-        getSerie()
+        // buscar dados da API 
+        getSerie();
     }, []);
 
 

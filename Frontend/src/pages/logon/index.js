@@ -24,7 +24,7 @@ export default function Logon() {
     return (
         <div className="logon-container">
             <div className="content">
-                <img className="logo" src={logoImg} alt="Logo Be The Hero" />
+                <img className="logo" src={logoImg} alt="Logo Green Dev's" />
 
                 <form onSubmit={handleLogin}>
                     <h1 className="titlePage">Faça seu logon</h1>
