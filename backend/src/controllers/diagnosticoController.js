@@ -11,7 +11,7 @@ module.exports = {
     },
 
     async listPorAluno(req, res) {
-        const { idAluno, idTurma } = req.query;
+        const { idAluno, idSerie } = req.query;
 
         await connection
         .raw(`select diagnostico_aluno.id as idDiagnostico,diagnostico_aluno.idAluno as idAluno,
@@ -23,7 +23,52 @@ module.exports = {
         join serie on  serie.id = periodo.serie_id
         join turma on turma.serie_id = serie.id
         where diagnostico_aluno.idAluno = ${idAluno}
-        and turma.id = ${idTurma}`)
+        and serie.id = ${idSerie}`)
+        
+        .then(result => {
+            console.log(result)
+            let diagnosticos = [];
+            result.map( diagnostico => {
+                let index = diagnosticos.findIndex( e => e.id == diagnostico.idAluno)
+                if ( index == -1){
+                    diagnosticos.push({
+                        id: diagnostico.idDiagnostico,
+                        idAluno: diagnostico.idAluno,
+                        periodo: diagnostico.idPeriodo,
+                        indice : [{
+                            classe: diagnostico.classe,
+                            id: diagnostico.idIndice,
+                            desc: diagnostico.descricaoIndice
+                        }]
+                    })
+                }else{
+                    diagnosticos[index].indice.push({
+                        classe: diagnostico.classe,
+                        id: diagnostico.idIndice,
+                        desc: diagnostico.descricaoIndice
+                    })
+                }
+            })
+            return res.status(200).json(diagnosticos);
+        }).catch(error => {
+            return res.status(500).json(error);
+        });
+
+    },
+
+    async listPorSerie(req, res) {
+        const { idSerie } = req.query;
+
+        await connection
+        .raw(`select diagnostico_aluno.id as idDiagnostico,diagnostico_aluno.idAluno as idAluno,
+        diagnostico_aluno.idPeriodo as idPeriodo,indice.classe,indice.idIndice as idIndice,
+         indice.descricao as descricaoIndice
+        from diagnostico_aluno
+        join indice on indice.idIndice = diagnostico_aluno.idIndice
+        join periodo on periodo.id = diagnostico_aluno.idPeriodo
+        join serie on  serie.id = periodo.serie_id
+        join turma on turma.serie_id = serie.id
+        where serie.id = ${idSerie}`)
         
         .then(result => {
             console.log(result)
