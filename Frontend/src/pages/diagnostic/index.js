@@ -15,33 +15,46 @@ export default function Diagnostic() {
     const [perfils, setPerfils] = useState([]);
     const [diagnostic, setDiagnostic] = useState({ periodo: "", perfil: "" });
     const [modalShow, setModalShow] = useState(false);
-    const { id } = useParams();
+    const [alunos, setAlunos] = useState([]);
+    const { serie_id } = useParams();
+    const [editing, setEditing] = useState({})
 
-    useEffect(() => {
-        //setPeriodos(INITIAL_PERIODOS);
-        //setPerfils(INITIAL_PERFILS);
+    useEffect(() => { 
         getData();
     }, []);
-
-    useEffect(() => {
-        console.log(JSON.stringify(diagnostic));
-    }, [diagnostic]);
+ 
 
     //Busca dados da API
     async function getData (){
-        await api.get(`/periodo/serie/${id}`).then(response => {
-            console.log(response.data)
+        await api.get(`/periodo/serie/${serie_id}`).then(response => { 
             setPeriodos(response.data); 
         }).catch(err => { 
-            alert(err);
+           console.error(err);
         });
         
         await api.get('/perfil_turma').then(response => { 
             setPerfils(response.data); 
         }).catch(err => { 
-            alert(err);
+            console.error(err);
+        });
+
+        await api.get('/diagnostico/serie/aluno', {
+            params: { 
+              serie_id: serie_id
+            }
+          }).then(response => { 
+            setAlunos(response.data); 
+        }).catch(err => { 
+            console.error(err);
         });
     }
+
+    useEffect(() => {
+        if(editing.idAluno != undefined){
+            setModalShow(true)
+        }
+            
+    },[editing])
     
 
     return (
@@ -86,7 +99,7 @@ export default function Diagnostic() {
 
                     <h1 className="subtitle">Avaliação de Alunos</h1>
                     <div className="tableCard justify-content-md-center">
-                        <Table striped hover >
+                    <Table striped hover >
                             <thead>
                                 <tr>
                                     <th width={'5%'} >#</th>
@@ -96,40 +109,23 @@ export default function Diagnostic() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>
-                                        <Badge className="observation" variant="success">Bom Aluno</Badge>
-                                        <Badge className="observation" variant="primary">Realiza tarefa</Badge>
-                                        <Badge className="observation" variant="warning">Dificuldade</Badge>
-                                    </td>
-                                    <td><FiEdit size={20} color='primary' onClick={() => setModalShow(true)} /></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jacob</td>
-                                    <td>
-                                        <Badge className="observation" variant="success">Bom Aluno</Badge>
-                                        <Badge className="observation" variant="primary">Realiza tarefa</Badge>
-                                        <Badge className="observation" variant="warning">Dificuldade</Badge>
-                                        <Badge className="observation" variant="success">Bom Aluno</Badge>
-                                        <Badge className="observation" variant="primary">Realiza tarefa</Badge>
-                                        <Badge className="observation" variant="warning">Dificuldade</Badge>
-                                    </td>
-                                    <td><FiEdit size={20} color='primary' onClick={() => setModalShow(true)}/></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Larry the Bird</td>
-                                    <td>
-                                        <Badge className="observation" variant="success">Bom Aluno</Badge>
-                                        <Badge className="observation" variant="primary">Realiza tarefa</Badge>
-                                        <Badge className="observation" variant="warning">Dificuldade</Badge>
-                                    </td>
-                                    <td><FiEdit size={20} color='primary' onClick={() => setModalShow(true)}/></td>
-                                </tr>
-                            </tbody>
+                                {
+                                    alunos.map(aluno => (
+                                        <tr>
+                                            <td>{aluno.idAluno}</td>
+                                            <td>{aluno.nomeAluno}</td>
+                                            <td>
+                                                {
+                                                    aluno.indice.map( indice => (
+                                                        <Badge className="observation" variant={indice.classe.toLowerCase()}>{indice.desc}</Badge>
+                                                    ))
+                                                } 
+                                            </td>
+                                            <td><FiEdit size={20} color='primary' onClick={() => setEditing(aluno)} /></td>
+                                        </tr>
+                                    ))
+                                }
+                             </tbody> 
                         </Table>
                     </div>
 
@@ -142,14 +138,14 @@ export default function Diagnostic() {
                 </section>
             </div>
 
-            <ModalEditAluno show={modalShow} onHide={() => setModalShow(false)}/>
+            <ModalEditAluno show={modalShow} editAluno={editing} onHide={() => setModalShow(false)}/>
         </div>
 
 
     ); 
 }
 
-function ModalEditAluno(props) {
+function ModalEditAluno(props) { 
     return (
         <Modal 
             {...props}
@@ -160,7 +156,30 @@ function ModalEditAluno(props) {
                 <Modal.Title>Adicionar Observações</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                
+            <Table striped hover >
+                            <thead>
+                                <tr>
+                                    <th width={'5%'} >#</th>
+                                    <th width={'40%'}>Aluno</th>
+                                    <th>Observações</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    <td>{props.editAluno.idAluno}</td>
+                                    <td>{props.editAluno.nomeAluno}</td>
+                                    <td>
+                                        {
+                                            (props.editAluno.idAluno != undefined) ? 
+                                            props.editAluno.indice.map( indice => (
+                                                <Badge className="observation" variant={indice.classe.toLowerCase()}>{indice.desc}</Badge>
+                                            )) : <Badge className="observation" variant="info">Sem dados</Badge>
+                                        } 
+                                    </td> 
+                                </tr> 
+                             </tbody> 
+                        </Table>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="outline-secondary" onClick={props.onHide}>

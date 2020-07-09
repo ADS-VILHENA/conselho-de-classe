@@ -38,7 +38,8 @@
 .cardOptionContent:hover{
   box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363);
   -webkit-box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363);
-  -moz-box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363); 
+  -moz-box-shadow: 0px 0px 10px 0px  rgba(24, 118, 240, 0.363);
+  
 }
 
 .cardOptionActive {   
@@ -54,6 +55,7 @@
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   border-radius: 5px;  
   cursor: pointer;
+  transform: scaleY(1.2);
 }
  
 

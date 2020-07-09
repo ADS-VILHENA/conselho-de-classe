@@ -21,8 +21,7 @@ export default function Course() {
         await api.get('/curso').then(response => {
             setCourse(response.data); 
         }).catch(err => {
-            console.error(err)
-            alert(err);
+            console.error(err);
         });
 
         setLoading(false);

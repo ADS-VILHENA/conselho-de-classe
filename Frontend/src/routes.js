@@ -19,7 +19,7 @@ export default function Routes() {
                 <Route path="/monitor/:serie_id" component={Monitor} />
                 <Route path="/course" component={Course} />
                 <Route path="/serie/:id" component={Serie} />
-                <Route path="/diagnostic/:id" component={Diagnostic} />
+                <Route path="/diagnostic/:serie_id" component={Diagnostic} />
             </Switch>
         </BrowserRouter>
     );
