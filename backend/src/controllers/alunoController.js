@@ -29,16 +29,10 @@ module.exports = {
                 if ( index == -1){
                     alunos.push({
                         nome: aluno.nomeAluno,
-                        notas: [{
-                            media: aluno.notas,
-                            periodo: aluno.idPeriodo
-                        }]
+                        notas: [aluno.notas]
                     })
                 }else{
-                    alunos[index].notas.push({
-                        media: aluno.notas,
-                        periodo: aluno.idPeriodo
-                    })
+                    alunos[index].notas.push(aluno.notas)
                 }
             })
             return res.status(200).json(alunos);
