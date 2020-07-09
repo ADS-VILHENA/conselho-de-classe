@@ -134,7 +134,9 @@ export default function Diagnostic() {
                     </div>
 
                     <div className={"diagnosticActions"}>
-                        <Button style={{ margin: 10, marginTop: 20, height: 50 }} variant="outline-secondary">Cancelar</Button>
+                        <Button style={{ margin: 10, marginTop: 20, height: 50 }} 
+                            variant="outline-secondary"
+                            onClick={() => { history.goBack() }} >Cancelar</Button>
                         <Button style={{ margin: 10, marginTop: 20, height: 50 }} variant="success">Salvar</Button>
                     </div>
                 </section>

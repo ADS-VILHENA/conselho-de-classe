@@ -80,9 +80,15 @@ export default function Monitor() {
         idAluno: selected.id,
         idSerie: serie_id
       }
-    }).then(response => { 
-      console.log(response.data)
-      setPerfilAluno((response.data.length > 0) ? response.data[0].indice : []);
+    }).then(response => {  
+      //setPerfilAluno((response.data.length > 0) ? response.data[0].indice : []);
+      setPerfilAluno([
+        { id: 1, desc: "Bom Aluno", classe:"primary"},
+        { id: 2, desc: "Realiza as atividades", classe:"success"},
+        { id: 3, desc: "Muitas Faltas", classe:"warning"},
+        { id: 4, desc: "Perdeu Prova", classe:"danger"},
+        { id: 5, desc: "Recebeu advertência", classe:"info"},
+      ])
     }).catch(err => {
       alert("Notas: " + err);
     });
@@ -96,8 +102,8 @@ export default function Monitor() {
     });
     await api.get(`/aluno/serie/${serie_id}`).then(response => { 
       setAlunos(response.data);
-      if(response.data.length){
-        setSelected(response.data);
+      if(response.data.length > 0){
+        setSelected(response.data[0]);
       }
       
     }).catch(err => {
@@ -143,7 +149,7 @@ export default function Monitor() {
             <div className="perfilContainer">
               { 
                  (perfilAluno.length > 0) ? perfilAluno.map(perfil => (
-                  <Badge className="observation" variant="success">{perfil.desc}</Badge>
+                  <Badge className="observation" variant={perfil.classe}>{perfil.desc}</Badge>
                 )) : <Badge className="observation" variant="primary">Sem Observações</Badge>
               }
             </div>
