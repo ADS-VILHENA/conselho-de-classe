@@ -85,7 +85,7 @@ export default function Monitor() {
       setMediaGeral(_mediaGeral);
       
     }).catch(err => {
-      alert("Media Geral: " + err);
+      console.error("Media Geral: " + err);
     });
  
   }
@@ -111,7 +111,7 @@ export default function Monitor() {
       
       
     }).catch(err => {
-      alert("atualizarChartDisciplina: " + err);
+      console.error("atualizarChartDisciplina: " + err);
     });
   }
 
@@ -125,15 +125,15 @@ export default function Monitor() {
     }).then(response => {   
       setPerfilAluno(response.data);       
     }).catch(err => {
-      alert("Notas: " + err);
+      console.error("Notas: " + err);
     });
   }
 
   async function getDados() {
     await api.get(`/turma/serie/${serie_id}`).then(response => {
-      setNomeTurma(response.data.nome);
+      setNomeTurma(response.data[0].nome);
     }).catch(err => {
-      alert("Turmas: " +  err);
+      console.error("Turmas: " +  err);
     });
     await api.get(`/aluno/serie/${serie_id}`).then(response => { 
       setAlunos(response.data);
@@ -141,12 +141,12 @@ export default function Monitor() {
         setSelected(response.data[0]);
       }      
     }).catch(err => {
-      alert("Alunos: " + err);
+      console.error("Alunos: " + err);
     }); 
     await api.get(`/disciplina/serie/${serie_id}`).then(response => {
       setDisciplinas(response.data); 
     }).catch(err => {
-      alert("Disciplinas: " + err);
+      console.error("Disciplinas: " + err);
     }); 
 
   }
