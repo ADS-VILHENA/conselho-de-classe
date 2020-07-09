@@ -41,16 +41,16 @@ export default function Monitor() {
 
   const [serieMedia, setSerieMedia] = useState([{ data: [0, 0, 0, 0] }]);
   const [serieNota, setSerieNota] = useState([{ data: [0, 0, 0, 0] }]);
-  const [mediaGeral, setMediaGeral] = useState(0)
+  const [mediaGeral, setMediaGeral] = useState(0); 
   const [selected, setSelected] = useState({ id: 1,nome: "Não há alunos cadastrados", notas: []});
 
   const [alunos, setAlunos] = useState([]);
   const [nomeTurma, setNomeTurma] = useState("");
   const [disciplinas, setDisciplinas] = useState([]);
   const [perfilAluno, setPerfilAluno] = useState([]);
+  const [notaDisciplina, setNotaDisciplina] = useState([0,0,0,0]);
 
   const { serie_id } = useParams();
-
 
   useEffect(() => {
     getDados();        
@@ -110,12 +110,27 @@ export default function Monitor() {
       alert("Alunos: " + err);
     }); 
     await api.get(`/disciplina/serie/${serie_id}`).then(response => {
-      setDisciplinas([response.data]); ///Ajustar
+      setDisciplinas(response.data); 
     }).catch(err => {
       alert("Disciplinas: " + err);
     }); 
 
   }
+
+  async function atualizarChartDisciplina(idDisciplina){
+    await api.get(`/aluno/disciplina`, {
+      params: {
+        idAluno: selected.id,
+        idDisciplina: idDisciplina
+      }
+    }).then(response => { 
+      console.log(response.data.notas)
+      setSerieNota(response.data.notas)
+    }).catch(err => {
+      alert("atualizarChartDisciplina: " + err);
+    });
+  }
+  //////////
   return (
     <div className="main-container">
       <Header />
@@ -173,8 +188,9 @@ export default function Monitor() {
             <div className="chartContent">
               <div className="chartHeader">
                 <span>{`Media Disciplina - 0`}</span>
-                <select style={{ width: 200, marginLeft: 10 }}>
+                <select style={{ width: 200, marginLeft: 10 }} onChange={(e) => atualizarChartDisciplina(e.target.value)}> 
                   {
+                    
                     disciplinas.map(item => (
                       <option value={item.id}>{item.nome}</option>
                     ))
