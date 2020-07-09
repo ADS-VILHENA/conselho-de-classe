@@ -10,6 +10,7 @@ import api from '../../services/api';
 
 
 const categoriesCol = ['1º Sem.', '2º Sem.', '3º Sem.', '4º Sem.'];
+
 const optionsMedia = {
   chart: {
     toolbar: {
@@ -39,16 +40,17 @@ export default function Monitor() {
 
   const history = useHistory();
 
-  const [serieMedia, setSerieMedia] = useState([{ data: [0, 0, 0, 0] }]);
-  const [serieNota, setSerieNota] = useState([{ data: [0, 0, 0, 0] }]);
+  const [notaGeral, setNotaGeral] = useState([{ data: [0, 0, 0, 0] }]);
+  const [notaDisciplina, setNotaDisciplina] = useState([{ data: [0, 0, 0, 0] }]);
   const [mediaGeral, setMediaGeral] = useState(0); 
+  const [mediaDisciplina, setMediaDisciplina] = useState(0); 
   const [selected, setSelected] = useState({ id: 1,nome: "Não há alunos cadastrados", notas: []});
 
   const [alunos, setAlunos] = useState([]);
   const [nomeTurma, setNomeTurma] = useState("");
   const [disciplinas, setDisciplinas] = useState([]);
   const [perfilAluno, setPerfilAluno] = useState([]);
-  const [notaDisciplina, setNotaDisciplina] = useState([0,0,0,0]);
+  const [disciplina, setDisciplina] = useState(0);
 
   const { serie_id } = useParams();
 
@@ -57,30 +59,70 @@ export default function Monitor() {
   }, []);
 
   useEffect( () => { 
-
-    setSerieMedia([{ data: selected.notas }]);
-
-    if (selected.notas !== undefined) {
-      let _mediaGeral = 0;
-      for (let i = 0; i < selected.notas.length; i++) {
-        _mediaGeral += selected.notas[i];
-      }
-      _mediaGeral = _mediaGeral / selected.notas.length;
-      setMediaGeral(_mediaGeral);
-      getPerfilAluno();
-    } 
+    
+    findPerfilAluno();
+    findMediaGeral(); 
+    findNotaDisciplina();
 
   }, [selected]);
 
-  async function getPerfilAluno(){
+  useEffect(() => {
+    findNotaDisciplina()
+  },[disciplina])
+  async function findMediaGeral(){ 
+    await api.get(`/aluno/notas/periodo`, {
+      params: {
+        aluno_id: selected.id,
+        serie_id: serie_id
+      }
+    }).then(response => {   
+      setNotaGeral([{ data: response.data.notas }]);  
+      let _mediaGeral = 0;
+      for (let i = 0; i < response.data.notas.length; i++) {
+        _mediaGeral += response.data.notas[i];
+      }
+      _mediaGeral = _mediaGeral / response.data.notas.length;
+      setMediaGeral(_mediaGeral);
+      
+    }).catch(err => {
+      alert("Media Geral: " + err);
+    });
+ 
+  }
+
+  async function findNotaDisciplina(){
+    setNotaDisciplina([{ data: [0,0,0,0] }])
+    setMediaDisciplina(0);
+    await api.get(`/aluno/disciplina`, {
+      params: {
+        idAluno: selected.id,
+        idDisciplina: disciplina
+      }
+    }).then(response => {  
+      setNotaDisciplina([{ data: response.data.notas }])
+      if(response.data.notas != undefined){
+        let _mediaDisciplina = 0;
+        for (let i = 0; i < response.data.notas.length; i++) {
+          _mediaDisciplina += response.data.notas[i];
+        }
+        _mediaDisciplina = _mediaDisciplina / response.data.notas.length;
+        setMediaDisciplina(_mediaDisciplina);
+      }
+      
+      
+    }).catch(err => {
+      alert("atualizarChartDisciplina: " + err);
+    });
+  }
+
+  async function findPerfilAluno(){
     
     await api.get(`/diagnostico/aluno/serie`, {
       params: {
         idAluno: selected.id,
         idSerie: serie_id
       }
-    }).then(response => {  
-      console.log(response.data);
+    }).then(response => {   
       setPerfilAluno(response.data);       
     }).catch(err => {
       alert("Notas: " + err);
@@ -97,8 +139,7 @@ export default function Monitor() {
       setAlunos(response.data);
       if(response.data.length > 0){
         setSelected(response.data[0]);
-      }
-      
+      }      
     }).catch(err => {
       alert("Alunos: " + err);
     }); 
@@ -110,18 +151,7 @@ export default function Monitor() {
 
   }
 
-  async function atualizarChartDisciplina(idDisciplina){
-    await api.get(`/aluno/disciplina`, {
-      params: {
-        idAluno: selected.id,
-        idDisciplina: idDisciplina
-      }
-    }).then(response => {  
-      setSerieNota([{ data: response.data.notas }])
-    }).catch(err => {
-      alert("atualizarChartDisciplina: " + err);
-    });
-  }
+ 
 
 
   /*********************/
@@ -175,14 +205,14 @@ export default function Monitor() {
               <Chart
                 style={{ margin: 10 }}
                 options={optionsMedia}
-                series={serieMedia}
+                series={notaGeral}
                 type="bar"
               />
             </div>
             <div className="chartContent">
               <div className="chartHeader">
-                <span>{`Media Disciplina - 0`}</span>
-                <select style={{ width: 200, marginLeft: 10 }} onChange={(e) => atualizarChartDisciplina(e.target.value)}> 
+                <span>{`Media Disciplina - ${mediaDisciplina.toFixed(2)}`}</span>
+                <select style={{ width: 200, marginLeft: 10 }} onChange={(e) => setDisciplina(e.target.value)}> 
                   {
                     
                     disciplinas.map(item => (
@@ -195,7 +225,7 @@ export default function Monitor() {
               <Chart
                 style={{ margin: 10 }}
                 options={optionsNota}
-                series={serieNota}
+                series={notaDisciplina}
                 type="area"
               />
             </div>
@@ -212,11 +242,11 @@ export default function Monitor() {
 function setGraphColor(value) {
   if (value > 90)
     return '#0082FF'
-  else if (value > 70)
+  else if (value > 69)
     return '#009700'
-  else if (value > 60)
+  else if (value > 59)
     return '#5AB7D4'
-  else if (value > 50)
+  else if (value > 49)
     return '#D45B00'
   else
     return '#FF0000'
