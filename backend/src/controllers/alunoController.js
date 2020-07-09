@@ -56,7 +56,7 @@ module.exports = {
             console.log(result)
             let alunos = [];
             result.map( aluno => {
-                let index = alunos.findIndex( e => e.id == aluno.id)
+                let index = alunos.findIndex( e => e.id == aluno.idAluno)
                 if ( index == -1){
                     alunos.push({
                         id: aluno.id,

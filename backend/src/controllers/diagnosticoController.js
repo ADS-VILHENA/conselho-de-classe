@@ -62,23 +62,25 @@ module.exports = {
         await connection
         .raw(`select diagnostico_aluno.id as idDiagnostico,diagnostico_aluno.idAluno as idAluno,
         diagnostico_aluno.idPeriodo as idPeriodo,indice.classe,indice.idIndice as idIndice,
-         indice.descricao as descricaoIndice
+         indice.descricao as descricaoIndice, aluno.nome as nomeAluno
         from diagnostico_aluno
         join indice on indice.idIndice = diagnostico_aluno.idIndice
         join periodo on periodo.id = diagnostico_aluno.idPeriodo
         join serie on  serie.id = periodo.serie_id
         join turma on turma.serie_id = serie.id
+        join aluno on aluno.id = diagnostico_aluno.idAluno
         where serie.id = ${idSerie}`)
         
         .then(result => {
             console.log(result)
             let diagnosticos = [];
             result.map( diagnostico => {
-                let index = diagnosticos.findIndex( e => e.id == diagnostico.idAluno)
+                let index = diagnosticos.findIndex( e => e.id == diagnostico.id)
                 if ( index == -1){
                     diagnosticos.push({
-                        id: diagnostico.idDiagnostico,
+                        
                         idAluno: diagnostico.idAluno,
+                        nomeAluno: diagnostico.nomeAluno,
                         periodo: diagnostico.idPeriodo,
                         indice : [{
                             classe: diagnostico.classe,
@@ -141,7 +143,7 @@ module.exports = {
 
     async listPorPeriodo(req, res) {
         const { idPeriodo } = req.params;
-
+        
         await connection('diagnosticar_turma').select('*').where('idPeriodo', idPeriodo || 0).then(result => {
             return res.status(200).json(result);
         }).catch(error => {
