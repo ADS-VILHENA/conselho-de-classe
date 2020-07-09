@@ -42,7 +42,7 @@ export default function Monitor() {
   const [serieMedia, setSerieMedia] = useState([{ data: [0, 0, 0, 0] }]);
   const [serieNota, setSerieNota] = useState([{ data: [0, 0, 0, 0] }]);
   const [mediaGeral, setMediaGeral] = useState(0)
-  const [selected, setSelected] = useState({});
+  const [selected, setSelected] = useState({ id: 1,nome: "Não há alunos cadastrados", notas: []});
 
   const [alunos, setAlunos] = useState([]);
   const [nomeTurma, setNomeTurma] = useState("");
@@ -75,35 +75,38 @@ export default function Monitor() {
 
   async function getPerfilAluno(){
     
-    await api.get(`/diagnostico/aluno/filter`, {
+    await api.get(`/diagnostico/aluno/serie`, {
       params: {
         idAluno: selected.id,
-        idTurma: serie_id
+        idSerie: serie_id
       }
     }).then(response => { 
-      console.log(response.data.length)
+      console.log(response.data)
       setPerfilAluno((response.data.length > 0) ? response.data[0].indice : []);
     }).catch(err => {
-      alert(err);
+      alert("Notas: " + err);
     });
   }
 
   async function getDados() {
-    await api.get(`/turma/${serie_id}`).then(response => {
-      setNomeTurma(response.data[0].nome);
+    await api.get(`/turma/serie/${serie_id}`).then(response => {
+      setNomeTurma(response.data.nome);
     }).catch(err => {
-      alert(err);
+      alert("Turmas: " +  err);
     });
-    await api.get(`/aluno/${serie_id}`).then(response => {
+    await api.get(`/aluno/serie/${serie_id}`).then(response => { 
       setAlunos(response.data);
-      setSelected(response.data[0]);
+      if(response.data.length){
+        setSelected(response.data);
+      }
+      
     }).catch(err => {
-      alert(err);
+      alert("Alunos: " + err);
     }); 
-    await api.get(`/disciplina/${serie_id}`).then(response => {
-      setDisciplinas(response.data);
+    await api.get(`/disciplina/serie/${serie_id}`).then(response => {
+      setDisciplinas([response.data]); ///Ajustar
     }).catch(err => {
-      alert(err);
+      alert("Disciplinas: " + err);
     }); 
 
   }
@@ -128,7 +131,7 @@ export default function Monitor() {
               <div className={aluno.id === selected.id ? "cardAlunoActive" : "cardAlunoContent"} key={aluno.id} onClick={() => setSelected(aluno)} >
                 <div className="alunoContent">
                   <FiUser size={20} />
-                  <span>{aluno?.nome || 'Selecione um Aluno'}</span>
+                  <span>{aluno.nome}</span>
                 </div>
               </div>
             ))
@@ -136,7 +139,7 @@ export default function Monitor() {
           </ul>
 
           <div className="alunoSelected">
-            <span className="subtitle">{selected?.nome || 'Selecione um Aluno'}</span>
+            <span className="subtitle">{selected.nome}</span>
             <div className="perfilContainer">
               { 
                  (perfilAluno.length > 0) ? perfilAluno.map(perfil => (

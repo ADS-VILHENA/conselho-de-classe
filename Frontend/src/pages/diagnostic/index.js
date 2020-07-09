@@ -29,15 +29,14 @@ export default function Diagnostic() {
 
     //Busca dados da API
     async function getData (){
-        await api.get(`/periodo/${id}`).then(response => {
+        await api.get(`/periodo/serie/${id}`).then(response => {
             console.log(response.data)
             setPeriodos(response.data); 
         }).catch(err => { 
             alert(err);
         });
         
-        await api.get('/perfil_turma').then(response => {
-            console.log(response.data)
+        await api.get('/perfil_turma').then(response => { 
             setPerfils(response.data); 
         }).catch(err => { 
             alert(err);

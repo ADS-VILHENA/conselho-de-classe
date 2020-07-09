@@ -5,7 +5,7 @@ import './header.css'
 
 export default function Header() {
     return (
-        <header >
+        <header className="headerCustom">
             <div className="headerContent">
                 <img className="logoHeader" src={logoImg} alt="Logo Be The Hero" />
                 <span classNa="welcomeUser">Bem vindo, Administrador</span>

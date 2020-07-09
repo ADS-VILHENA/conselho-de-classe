@@ -17,7 +17,7 @@ export default function Serie() {
     }, [])
 
     async function getSerie() {
-        await api.get(`/serie/${id}`).then(reponse => {
+        await api.get(`/serie/curso/${id}`).then(reponse => {
             setSerie(reponse.data)
         }).catch(err => {
             alert(err)
