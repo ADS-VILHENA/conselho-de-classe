@@ -103,6 +103,51 @@ module.exports = {
 
     },
 
+    async listDiagnosticosSerie(req, res) {//essa aqui
+        const { serie_id } = req.query;
+        await connection
+        .raw(`select diagnostico_aluno.idAluno as idAluno,
+                    aluno.nome as nomeAluno,
+                    diagnostico_aluno.idPeriodo as idPeriodo,
+                    indice.classe as classeIndice,
+                    diagnostico_aluno.idIndice,
+                    indice.descricao as descricaoIndice
+            from diagnostico_aluno 
+                join periodo on diagnostico_aluno.idPeriodo = periodo.id
+                join aluno on diagnostico_aluno.idAluno = aluno.id
+                join indice on diagnostico_aluno.idIndice = indice.idIndice
+            where periodo.serie_id = ${serie_id}`)
+        .then(result => {
+            console.log(result)
+            let diagnosticos = [];
+            result.map( diagnostico => {
+                let index = diagnosticos.findIndex( e => e.idAluno == diagnostico.idAluno)
+                if ( index == -1){
+                    diagnosticos.push({
+                        idAluno: diagnostico.idAluno,
+                        nomeAluno: diagnostico.nomeAluno,
+                        periodo: diagnostico.idPeriodo,
+                        indice : [{
+                            classe: diagnostico.classeIndice,
+                            id: diagnostico.idIndice,
+                            desc: diagnostico.descricaoIndice
+                        }]
+                    })
+                }else{
+                    diagnosticos[index].indice.push({
+                        classe: diagnostico.classeIndice,
+                        id: diagnostico.idIndice,
+                        desc: diagnostico.descricaoIndice
+                    })
+                }
+            })
+            return res.status(200).json(diagnosticos);
+        }).catch(error => {
+            return res.status(500).json(error);
+        });
+
+    },
+
     async listPorPeriodo(req, res) {
         const { idPeriodo } = req.params;
 
