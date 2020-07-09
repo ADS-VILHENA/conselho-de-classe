@@ -45,6 +45,7 @@ Routers.get('/aluno', alunoController.list);
 Routers.post('/aluno', alunoController.create);
 Routers.get('/aluno/serie/:serie_id', alunoController.listNotasSerie);
 Routers.get('/aluno/disciplina', alunoController.listNotasDisciplina);
+Routers.get('/aluno/notas/periodo', alunoController.listMediaGeral);
 
 Routers.get('/matricula', matriculaController.list);
 Routers.post('/matricula', matriculaController.create);
