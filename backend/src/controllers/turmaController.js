@@ -15,7 +15,7 @@ module.exports = {
     async listPorSerie(req, res) {
         const { serie_id } = req.params;
 
-        await connection('turma').select('*').where('serie_id', serie_id || 0).first().then(result => {
+        await connection('turma').select('*').where('serie_id', serie_id || 0).then(result => {
             return res.status(200).json(result);
         }).catch(error => {
             return res.status(500).json(error);

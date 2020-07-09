@@ -21,7 +21,8 @@ Routers.post('/diagnostico/turma', diagnosticoController.createTurma);
 Routers.get('/diagnostico/aluno', diagnosticoController.listAluno);
 Routers.post('/diagnostico/aluno', diagnosticoController.createAluno);
 Routers.get('/diagnostico/aluno/serie', diagnosticoController.listPorAluno)
-Routers.get('/diagnostico/serie', diagnosticoController.listPorSerie)
+Routers.get('/diagnostico/serie', diagnosticoController.listPorSerie)//criar uma rota que reorne um array com os diagnosicos com todos os alinos passando idSerie
+Routers.get('/diagnostico/serie/aluno', diagnosticoController.listDiagnosticosSerie)
 
 Routers.get('/indice', indiceController.list);
 Routers.post('/indice', indiceController.create);
