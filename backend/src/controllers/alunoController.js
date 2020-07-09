@@ -29,13 +29,13 @@ module.exports = {
                 if ( index == -1){
                     alunos.push({
                         nome: aluno.nomeAluno,
-                        notas: [aluno.notas]
+                        notas: [parseFloat(aluno.notas.toFixed(2))]
                     })
                 }else{
-                    alunos[index].notas.push(aluno.notas)
+                    alunos[index].notas.push(parseFloat(aluno.notas.toFixed(2)))
                 }
             })
-            return res.status(200).json(alunos);
+            return res.status(200).json(alunos[0]);
         }).catch(error => {
             return res.status(500).json(error);
         });
