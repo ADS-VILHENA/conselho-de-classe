@@ -9,6 +9,44 @@ module.exports = {
             return res.status(500).json(error);
         });
     },
+    
+    async listMediaGeral(req, res) {
+        const { aluno_id,serie_id } = req.query;
+        
+        await connection.raw(`SELECT aluno.nome as nomeAluno, notas.periodo_id idPeriodo,
+        AVG(notas.nota) as notas FROM disciplina 
+        INNER JOIN matricula ON matricula.disciplina_id = disciplina.id
+         INNER JOIN aluno ON aluno.id = matricula.aluno_id 
+         INNER JOIN notas ON notas.matricula_id = matricula.id
+        WHERE aluno.id = ${aluno_id}
+        AND disciplina.serie_id = ${serie_id} 
+        GROUP BY aluno.id,notas.periodo_id`)
+        .then(result => {
+            console.log(result)
+            let alunos = [];
+            result.map( aluno => {
+                let index = alunos.findIndex( e => e.id == aluno.id)
+                if ( index == -1){
+                    alunos.push({
+                        nome: aluno.nomeAluno,
+                        notas: [{
+                            media: aluno.notas,
+                            periodo: aluno.idPeriodo
+                        }]
+                    })
+                }else{
+                    alunos[index].notas.push({
+                        media: aluno.notas,
+                        periodo: aluno.idPeriodo
+                    })
+                }
+            })
+            return res.status(200).json(alunos);
+        }).catch(error => {
+            return res.status(500).json(error);
+        });
+
+    },
 
     async listNotasSerie(req, res) {
         const { serie_id } = req.params;
