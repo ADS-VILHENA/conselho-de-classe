@@ -59,7 +59,6 @@ export default function Monitor() {
   useEffect( () => { 
 
     setSerieMedia([{ data: selected.notas }]);
-    setSerieNota([{ data: selected.notas }]);
 
     if (selected.notas !== undefined) {
       let _mediaGeral = 0;
@@ -81,14 +80,8 @@ export default function Monitor() {
         idSerie: serie_id
       }
     }).then(response => {  
-      //setPerfilAluno((response.data.length > 0) ? response.data[0].indice : []);
-      setPerfilAluno([
-        { id: 1, desc: "Bom Aluno", classe:"primary"},
-        { id: 2, desc: "Realiza as atividades", classe:"success"},
-        { id: 3, desc: "Muitas Faltas", classe:"warning"},
-        { id: 4, desc: "Perdeu Prova", classe:"danger"},
-        { id: 5, desc: "Recebeu advertência", classe:"info"},
-      ])
+      console.log(response.data);
+      setPerfilAluno(response.data);       
     }).catch(err => {
       alert("Notas: " + err);
     });
@@ -123,14 +116,15 @@ export default function Monitor() {
         idAluno: selected.id,
         idDisciplina: idDisciplina
       }
-    }).then(response => { 
-      console.log(response.data.notas)
-      setSerieNota(response.data.notas)
+    }).then(response => {  
+      setSerieNota([{ data: response.data.notas }])
     }).catch(err => {
       alert("atualizarChartDisciplina: " + err);
     });
   }
-  //////////
+
+
+  /*********************/
   return (
     <div className="main-container">
       <Header />
@@ -164,7 +158,7 @@ export default function Monitor() {
             <div className="perfilContainer">
               { 
                  (perfilAluno.length > 0) ? perfilAluno.map(perfil => (
-                  <Badge className="observation" variant={perfil.classe}>{perfil.desc}</Badge>
+                  <Badge className="observation" variant={perfil.indice[0].classe.toLowerCase()}>{perfil.indice[0].desc}</Badge>
                 )) : <Badge className="observation" variant="primary">Sem Observações</Badge>
               }
             </div>
@@ -175,7 +169,7 @@ export default function Monitor() {
           <div className="chartsContainer">
             <div className="chartContent">
               <div className="chartHeader">
-                <span>{`Media Geral - ${mediaGeral}`}</span>
+                <span>{`Media Geral - ${mediaGeral.toFixed(2)}`}</span>
               </div>
 
               <Chart
