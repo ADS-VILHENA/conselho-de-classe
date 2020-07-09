@@ -1,11 +1,11 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React  from 'react';
 
 import logoImg from '../assets/logo.png';
 import './header.css'
 
 export default function Header() {
     return (
-        <header >
+        <header className="headerCustom">
             <div className="headerContent">
                 <img className="logoHeader" src={logoImg} alt="Logo Be The Hero" />
                 <span classNa="welcomeUser">Bem vindo, Administrador</span>

@@ -42,15 +42,21 @@
 
 .alunoSelected{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
+
+.perfilContainer{
+    margin: 2px auto;
+  }
 
 .cardAlunoContent {   
     display: flex;        
     justify-items: center;
     align-items: center; 
     background: #fff;
-    height: 80px;
+    height: 100px;
     margin: 10px 5px;
     padding: 10px;
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
@@ -79,6 +85,7 @@
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
     border-radius: 5px;  
     cursor: pointer;
+    transform: scaleY(1.2);
 }
   
 
@@ -91,6 +98,25 @@
 }
 
 .chartContent {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    justify-items: center;
+    margin: 10px;
+}
+
+.chartHeader{
+    display: flex;
+    justify-content: center;
+
+    padding: 20px;
 }
   
+
+.chartContent span{
+    text-align: center;    
+    color: #777;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Roboto'; 
+} 

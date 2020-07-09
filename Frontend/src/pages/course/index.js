@@ -1,12 +1,11 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiMonitor, FiSettings, FiHome, FiGlobe, FiPieChart } from 'react-icons/fi';
 import api from '../../services/api';
 
 import './styles.css';
 import Header from '../../components/header';
 
-import { Spinner, Badge } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 
 export default function Course() {
     const [course, setCourse] = useState([]);

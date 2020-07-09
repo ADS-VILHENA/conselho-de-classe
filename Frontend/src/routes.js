@@ -16,7 +16,7 @@ export default function Routes() {
                 <Route path="/" exact component={Logon} />
                 <Route path="/register" component={Register} />
                 <Route path="/panel" component={Panel} />
-                <Route path="/monitor/:id" component={Monitor} />
+                <Route path="/monitor/:serie_id" component={Monitor} />
                 <Route path="/course" component={Course} />
                 <Route path="/serie/:id" component={Serie} />
                 <Route path="/diagnostic/:id" component={Diagnostic} />

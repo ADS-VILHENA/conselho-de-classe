@@ -1,53 +1,16 @@
-﻿import React, { useState, useEffect, Children } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { FiUser, FiArrowLeft } from 'react-icons/fi';
 import Chart from "react-apexcharts";
+import { Badge } from 'react-bootstrap';
 
 import './styles.css';
 import Header from '../../components/header';
+import api from '../../services/api';
 
-import ApexCharts from 'apexcharts'
-
-const INITIAL_ALUNOS = [{
-  id: "a1",
-  name: "Wallyson Silva",
-  notas: [30, 85, 99, 12]
-}, {
-  id: "va",
-  name: "Marcos Santos",
-  notas: [70, 30, 60, 90]
-}, {
-  id: "a5",
-  name: "Silva de Souza",
-  notas: [56, 65, 89, 100]
-}, {
-  id: "as",
-  name: "Nathalia Maria",
-  notas: [80, 80, 50, 90]
-}, {
-  id: "eq",
-  name: "Sergio Marcos",
-  notas: [10, 80, 99, 70]
-  
-}, {
-  id: "8e",
-  name: "Alan Gonsalves",
-  notas: [90, 85, 99, 60]
-}, {
-  id: "59",
-  name: "Rodrigues Nogueira",
-  notas: [55, 85, 50, 70]
-}, , {
-  id: "aa",
-  name: "Silva de Souza",
-  notas: [85, 85, 99, 60]
-}, {
-  id: "fa",
-  name: "Nathalia Maria",
-  notas: [60, 70, 60, 85]
-}];
 
 const categoriesCol = ['1º Sem.', '2º Sem.', '3º Sem.', '4º Sem.'];
+
 const optionsMedia = {
   chart: {
     toolbar: {
@@ -76,23 +39,122 @@ const optionsNota = {
 export default function Monitor() {
 
   const history = useHistory();
+
+  const [notaGeral, setNotaGeral] = useState([{ data: [0, 0, 0, 0] }]);
+  const [notaDisciplina, setNotaDisciplina] = useState([{ data: [0, 0, 0, 0] }]);
+  const [mediaGeral, setMediaGeral] = useState(0); 
+  const [mediaDisciplina, setMediaDisciplina] = useState(0); 
+  const [selected, setSelected] = useState({ id: 1,nome: "Não há alunos cadastrados", notas: []});
+
   const [alunos, setAlunos] = useState([]);
-  const [serieMedia, setSerieMedia] = useState([{ data: [0, 0, 0, 0] }]);
-  const [serieNota, setSerieNota] = useState([{ data: [0, 0, 0, 0] }]);
-  const [selected, setSelected] = useState({})
+  const [nomeTurma, setNomeTurma] = useState("");
+  const [disciplinas, setDisciplinas] = useState([]);
+  const [perfilAluno, setPerfilAluno] = useState([]);
+  const [disciplina, setDisciplina] = useState(0);
 
-
+  const { serie_id } = useParams();
 
   useEffect(() => {
-    setAlunos(INITIAL_ALUNOS);
+    getDados();        
   }, []);
 
-  useEffect(() => {
-    setSerieMedia([{ data: selected.notas }]);
-    setSerieNota([{ data: selected.notas }]);
+  useEffect( () => { 
+    
+    findPerfilAluno();
+    findMediaGeral(); 
+    findNotaDisciplina();
+
   }, [selected]);
 
+  useEffect(() => {
+    findNotaDisciplina()
+  },[disciplina])
+  async function findMediaGeral(){ 
+    await api.get(`/aluno/notas/periodo`, {
+      params: {
+        aluno_id: selected.id,
+        serie_id: serie_id
+      }
+    }).then(response => {   
+      setNotaGeral([{ data: response.data.notas }]);  
+      let _mediaGeral = 0;
+      for (let i = 0; i < response.data.notas.length; i++) {
+        _mediaGeral += response.data.notas[i];
+      }
+      _mediaGeral = _mediaGeral / response.data.notas.length;
+      setMediaGeral(_mediaGeral);
+      
+    }).catch(err => {
+      alert("Media Geral: " + err);
+    });
+ 
+  }
 
+  async function findNotaDisciplina(){
+    setNotaDisciplina([{ data: [0,0,0,0] }])
+    setMediaDisciplina(0);
+    await api.get(`/aluno/disciplina`, {
+      params: {
+        idAluno: selected.id,
+        idDisciplina: disciplina
+      }
+    }).then(response => {  
+      setNotaDisciplina([{ data: response.data.notas }])
+      if(response.data.notas != undefined){
+        let _mediaDisciplina = 0;
+        for (let i = 0; i < response.data.notas.length; i++) {
+          _mediaDisciplina += response.data.notas[i];
+        }
+        _mediaDisciplina = _mediaDisciplina / response.data.notas.length;
+        setMediaDisciplina(_mediaDisciplina);
+      }
+      
+      
+    }).catch(err => {
+      alert("atualizarChartDisciplina: " + err);
+    });
+  }
+
+  async function findPerfilAluno(){
+    
+    await api.get(`/diagnostico/aluno/serie`, {
+      params: {
+        idAluno: selected.id,
+        idSerie: serie_id
+      }
+    }).then(response => {   
+      setPerfilAluno(response.data);       
+    }).catch(err => {
+      alert("Notas: " + err);
+    });
+  }
+
+  async function getDados() {
+    await api.get(`/turma/serie/${serie_id}`).then(response => {
+      setNomeTurma(response.data.nome);
+    }).catch(err => {
+      alert("Turmas: " +  err);
+    });
+    await api.get(`/aluno/serie/${serie_id}`).then(response => { 
+      setAlunos(response.data);
+      if(response.data.length > 0){
+        setSelected(response.data[0]);
+      }      
+    }).catch(err => {
+      alert("Alunos: " + err);
+    }); 
+    await api.get(`/disciplina/serie/${serie_id}`).then(response => {
+      setDisciplinas(response.data); 
+    }).catch(err => {
+      alert("Disciplinas: " + err);
+    }); 
+
+  }
+
+ 
+
+
+  /*********************/
   return (
     <div className="main-container">
       <Header />
@@ -105,7 +167,7 @@ export default function Monitor() {
             <span className="backButton" onClick={() => { history.goBack() }} >
               <FiArrowLeft size={30} />
             </span>
-            Monitorar turma
+            {`Monitorar turma - ${nomeTurma}`}
           </h1>
 
 
@@ -114,29 +176,59 @@ export default function Monitor() {
               <div className={aluno.id === selected.id ? "cardAlunoActive" : "cardAlunoContent"} key={aluno.id} onClick={() => setSelected(aluno)} >
                 <div className="alunoContent">
                   <FiUser size={20} />
-                  <span>{aluno.name}</span>
+                  <span>{aluno.nome}</span>
                 </div>
               </div>
             ))
             }
           </ul>
-          
+
           <div className="alunoSelected">
-            <h1 className="subtitle">{selected.name || 'Selecione um Aluno'}</h1>
+            <span className="subtitle">{selected.nome}</span>
+            <div className="perfilContainer">
+              { 
+                 (perfilAluno.length > 0) ? perfilAluno.map(perfil => (
+                  <Badge className="observation" variant={perfil.indice[0].classe.toLowerCase()}>{perfil.indice[0].desc}</Badge>
+                )) : <Badge className="observation" variant="primary">Sem Observações</Badge>
+              }
+            </div>
+            
           </div>
 
 
           <div className="chartsContainer">
-            <Chart className="chartContent"
-              options={optionsMedia}
-              series={serieMedia}
-              type="bar"
-            />
-            <Chart className="chartContent"
-              options={optionsNota}
-              series={serieNota}
-              type="area"
-            />
+            <div className="chartContent">
+              <div className="chartHeader">
+                <span>{`Media Geral - ${mediaGeral.toFixed(2)}`}</span>
+              </div>
+
+              <Chart
+                style={{ margin: 10 }}
+                options={optionsMedia}
+                series={notaGeral}
+                type="bar"
+              />
+            </div>
+            <div className="chartContent">
+              <div className="chartHeader">
+                <span>{`Media Disciplina - ${mediaDisciplina.toFixed(2)}`}</span>
+                <select style={{ width: 200, marginLeft: 10 }} onChange={(e) => setDisciplina(e.target.value)}> 
+                  {
+                    
+                    disciplinas.map(item => (
+                      <option value={item.id}>{item.nome}</option>
+                    ))
+                  }
+                </select>
+              </div>
+
+              <Chart
+                style={{ margin: 10 }}
+                options={optionsNota}
+                series={notaDisciplina}
+                type="area"
+              />
+            </div>
           </div>
 
         </section>
@@ -150,11 +242,11 @@ export default function Monitor() {
 function setGraphColor(value) {
   if (value > 90)
     return '#0082FF'
-  else if (value > 70)
+  else if (value > 69)
     return '#009700'
-  else if (value > 60)
+  else if (value > 59)
     return '#5AB7D4'
-  else if (value > 50)
+  else if (value > 49)
     return '#D45B00'
   else
     return '#FF0000'

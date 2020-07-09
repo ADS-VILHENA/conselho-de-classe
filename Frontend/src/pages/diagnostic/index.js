@@ -1,62 +1,48 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { FiEdit, FiArrowLeft } from 'react-icons/fi';
 import { Table, Button, Badge, Modal } from 'react-bootstrap';
 
+import Header from '../../components/header';
+import api from '../../services/api';
 
 import './styles.css';
-import Header from '../../components/header';
 
-const INITIAL_PERIODOS = [{
-    id: "001",
-    name: "1º Semestre"
-}, {
-    id: "003",
-    name: "2º Semestre"
-}, {
-    id: "004",
-    name: "3º Semestre"
-},
-{
-    id: "005",
-    name: "4º Semestre"
-}];
-
-
-const INITIAL_PERFILS = [{
-    id: "001",
-    name: "Participativa"
-}, {
-    id: "002",
-    name: "Produtiva"
-}, {
-    id: "003",
-    name: "Produtiva"
-},
-{
-    id: "004",
-    name: "Indiciplinada"
-}];
 
 export default function Diagnostic() {
     const history = useHistory();
     const [periodos, setPeriodos] = useState([]);
     const [perfils, setPerfils] = useState([]);
-    const [diagnostic, setDiagnostic] = useState({
-        periodo: "",
-        perfil: ""
-    });
+    const [diagnostic, setDiagnostic] = useState({ periodo: "", perfil: "" });
     const [modalShow, setModalShow] = useState(false);
+    const { id } = useParams();
 
     useEffect(() => {
-        setPeriodos(INITIAL_PERIODOS);
-        setPerfils(INITIAL_PERFILS);
+        //setPeriodos(INITIAL_PERIODOS);
+        //setPerfils(INITIAL_PERFILS);
+        getData();
     }, []);
 
     useEffect(() => {
         console.log(JSON.stringify(diagnostic));
     }, [diagnostic]);
 
+    //Busca dados da API
+    async function getData (){
+        await api.get(`/periodo/serie/${id}`).then(response => {
+            console.log(response.data)
+            setPeriodos(response.data); 
+        }).catch(err => { 
+            alert(err);
+        });
+        
+        await api.get('/perfil_turma').then(response => { 
+            setPerfils(response.data); 
+        }).catch(err => { 
+            alert(err);
+        });
+    }
+    
 
     return (
         <div className="main-container">
@@ -76,7 +62,7 @@ export default function Diagnostic() {
                                 key={periodo.id}
                                 onClick={() => setDiagnostic({ ...diagnostic, periodo: periodo.id })} >
                                 <div className="optionContent">
-                                    <span>{periodo.name}</span>
+                                    <span>{periodo.nome}</span>
                                 </div>
                             </div>
                         ))
@@ -86,11 +72,11 @@ export default function Diagnostic() {
                     <h1 className="subtitle">Defina o Perfil da Turma</h1>
                     <ul className="cardOptionContainer">
                         {perfils.map(perfil => (
-                            <div className={diagnostic.perfil === perfil.id ? "cardOptionActive" : "cardOptionContent"}
-                                key={perfil.id}
-                                onClick={() => setDiagnostic({ ...diagnostic, perfil: perfil.id })} >
+                            <div className={diagnostic.perfil === perfil.idPerfil ? "cardOptionActive" : "cardOptionContent"}
+                                key={perfil.idPerfil.toString()}
+                                onClick={() => setDiagnostic({ ...diagnostic, perfil: perfil.idPerfil })} >
                                 <div className="optionContent">
-                                    <span>{perfil.name}</span>
+                                    <span>{perfil.descricao}</span>
                                 </div>
                             </div>
                         ))
@@ -148,7 +134,9 @@ export default function Diagnostic() {
                     </div>
 
                     <div className={"diagnosticActions"}>
-                        <Button style={{ margin: 10, marginTop: 20, height: 50 }} variant="outline-secondary">Cancelar</Button>
+                        <Button style={{ margin: 10, marginTop: 20, height: 50 }} 
+                            variant="outline-secondary"
+                            onClick={() => { history.goBack() }} >Cancelar</Button>
                         <Button style={{ margin: 10, marginTop: 20, height: 50 }} variant="success">Salvar</Button>
                     </div>
                 </section>
@@ -158,7 +146,7 @@ export default function Diagnostic() {
         </div>
 
 
-    );
+    ); 
 }
 
 function ModalEditAluno(props) {

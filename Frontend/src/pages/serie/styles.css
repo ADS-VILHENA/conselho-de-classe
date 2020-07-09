@@ -24,7 +24,7 @@
 .cardContainer > span{    
     font-size: 22px;
     text-decoration: none; 
-    font-weight: 700; 
+    font-weight: 500; 
     color: #777;
     text-align: center;
     margin-top: auto;
@@ -44,8 +44,7 @@
 }
 
 
-.cardLink { 
-   
+.cardLink {    
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -60,20 +59,20 @@
     box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.23);
     color: #555;
     font-weight: 500;
+    font-family: 'Roboto';
     text-align: center;      
     align-items: center !important;   
-    text-decoration: none !important;  
-  
+    text-decoration: none !important;   
 }
-
-  
-
+ 
 
 .cardLink:hover{
     -webkit-box-shadow: 2px 2px 2px 0px rgba(54, 102, 70, 0.23);
     -moz-box-shadow: 2px 2px 2px 0px  rgba(54, 102, 70, 0.23);
     box-shadow: 2px 2px 2px 0px  rgba(54, 102, 70, 0.23);
+    transform: scale(1.1);
 }
+
 .cardContent{
     display: flex;
     flex-direction: row;
